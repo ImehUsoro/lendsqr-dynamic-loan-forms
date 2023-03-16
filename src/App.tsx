@@ -1,24 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import BasicInformation from "./components/BasicInformation";
+// import FormInput from "./components/FormInput";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="h-screen bg-gray-200 mx-auto max-w-screen-xxl py-10">
+      <div className="">
+        <h1 className="text-center text-4xl text-heading font-semibold mb-28">
+          Loan Form Configuration Page
+        </h1>
+
+        <div className="mx-auto max-w-screen-lg">
+          <BasicInformation />
+        </div>
+      </div>
     </div>
   );
 }
