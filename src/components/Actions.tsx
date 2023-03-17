@@ -1,5 +1,10 @@
 import { useRecoilState } from "recoil";
-import { currentPageState, formState, modal } from "../atoms/pageAtoms";
+import {
+  currentPageState,
+  formState,
+  modal,
+  submitModal,
+} from "../atoms/pageAtoms";
 import { ActionTypes } from "../types/PageTypes";
 
 interface ActionProps {
@@ -9,6 +14,7 @@ const Actions = ({ actions }: ActionProps) => {
   const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
   const [mode, setMode] = useRecoilState(formState);
   const [modalState, setModalState] = useRecoilState(modal);
+  const [submitModalState, setSubmitModalState] = useRecoilState(submitModal);
 
   return (
     <div className="max-w-sm mx-auto flex flex-row-reverse justify-between">
@@ -19,8 +25,10 @@ const Actions = ({ actions }: ActionProps) => {
           onClick={() => {
             if (action.type === "continue") {
               setCurrentPage(currentPage + 1);
-            } else if (action.type === "previous") {
-              setCurrentPage(currentPage - 1);
+            } else if (action.type === "submit") {
+              // setCurrentPage(currentPage);
+              // setMode("submit");
+              setSubmitModalState(true);
             } else if (action.type === "cancel") {
               setModalState(true);
             }

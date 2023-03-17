@@ -4,6 +4,7 @@ import { values } from "../utils/data";
 import * as Yup from "yup";
 import { useRecoilState } from "recoil";
 import { submittedData } from "../atoms/pageAtoms";
+import { useEffect } from "react";
 
 interface FormInputProps {
   id: string;
@@ -40,9 +41,15 @@ const FormInput = ({
       phone_number: values.phone_number,
       email: values.email,
       reason_for_loan: values.reason_for_loan,
-      food_options: values.food_options,
+      food_options: "",
       document_options: "International Passport",
       date_of_birth: "",
+      time_of_day: "",
+      drink_options: "",
+      resumption_date: "",
+      identity_document: "",
+      audio_attestation: "",
+      student_selfie: "",
     },
     validationSchema: Yup.object({
       name_of_student: Yup.string().required("Name is required"),
@@ -65,6 +72,7 @@ const FormInput = ({
           "Invalid phone number"
         )
         .required("Phone Number is required"),
+      food_options: Yup.array().min(1, "Select one food option"),
     }),
 
     onSubmit: (values) => {
@@ -74,7 +82,28 @@ const FormInput = ({
     },
   });
 
-  // console.log(formik.values);
+  useEffect(() => {
+    setFormData(formik.values);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    formik.values.date_of_birth,
+    formik.values.document_options,
+    formik.values.email,
+    formik.values.food_options,
+    formik.values.name_of_student,
+    formik.values.number_of_siblins,
+    formik.values.phone_number,
+    formik.values.reason_for_loan,
+    formik.values.salary_of_dad,
+    formik.values.time_of_day,
+    formik.values.drink_options,
+    formik.values.resumption_date,
+    formik.values.identity_document,
+    formik.values.audio_attestation,
+    formik.values.student_selfie,
+  ]);
+  console.log(formik.errors);
+  // console.log({ formData });
 
   return (
     <div className="w-full">
@@ -262,19 +291,39 @@ const FormInput = ({
             </p>
           </>
         ) : type === "checkbox" ? (
-          <div className="flex flex-wrap gap-8">
-            {options?.map((option) => (
-              <div key={option.id} className="flex items-center gap-2">
-                <input type="checkbox" defaultValue="" className="" />
-                <span className="text-textColor">{option.label}</span>
-              </div>
-            ))}
-          </div>
+          <>
+            <div className="flex flex-wrap gap-8">
+              {options?.map((option) => (
+                <div key={option.id} className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    name={id}
+                    id={option.id}
+                    value={option.id}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+                  <span className="text-textColor">{option.label}</span>
+                </div>
+              ))}
+            </div>
+            <p className="text-red-500 text-xs mt-1">
+              {formik.touched.food_options &&
+                formik.errors.food_options &&
+                formik.errors.food_options}
+            </p>
+          </>
         ) : type === "radio" ? (
           <div className="flex flex-wrap gap-8">
             {options?.map((option) => (
               <div key={option.id} className="flex items-center gap-2">
-                <input type="radio" name={name} defaultValue="" className="" />
+                <input
+                  type="radio"
+                  name={id}
+                  value={option.id}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
                 <span className="text-textColor">{option.label}</span>
               </div>
             ))}
