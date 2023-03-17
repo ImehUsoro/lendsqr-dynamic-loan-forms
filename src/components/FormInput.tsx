@@ -102,8 +102,6 @@ const FormInput = ({
     formik.values.audio_attestation,
     formik.values.student_selfie,
   ]);
-  console.log(formik.errors);
-  // console.log({ formData });
 
   return (
     <div className="w-full">

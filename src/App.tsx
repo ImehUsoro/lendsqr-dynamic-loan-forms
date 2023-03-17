@@ -45,8 +45,9 @@ function App() {
               <div
                 className="text-textColor cursor-pointer active:text-gray-900 select-none"
                 onClick={() => {
+                  if (!URL) return alert("Please enter a valid URL");
                   navigator.clipboard.writeText(URL);
-                  alert("Copied to clipboard");
+                  alert(`${URL} - Copied to clipboard`);
                 }}
               >
                 <MdOutlineContentCopy />
