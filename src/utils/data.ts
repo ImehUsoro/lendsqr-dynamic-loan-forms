@@ -333,3 +333,14 @@ export const data = {
     },
   ],
 };
+
+export const values = {
+  name_of_student: "Precious Wilson",
+  number_of_siblins: 4,
+  salary_of_dad: 700000,
+  phone_number: "08023254177",
+  email: "p.wilson@gmail.com",
+  reason_for_loan:
+    "I want to complete my education and finish with a first class degree",
+  food_options: ["Afolabi"],
+};

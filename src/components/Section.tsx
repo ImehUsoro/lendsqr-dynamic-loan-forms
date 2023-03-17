@@ -1,6 +1,6 @@
 import React from "react";
 import FormInput from "./FormInput";
-import { SectionTypes } from "../types/PageTyes";
+import { SectionTypes } from "../types/PageTypes";
 
 interface SectionProps {
   sectionInfo: SectionTypes[];
@@ -24,15 +24,18 @@ const Section = ({ sectionInfo }: SectionProps) => {
                 {section.description}
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-y-8 w-full place-items-center">
+            <div className="grid grid-cols-2 gap-y-8 gap-x-16 w-full place-items-start">
               {section.fields.map((field) => (
                 <FormInput
+                  id={field.id}
+                  placeholder={field.label}
                   key={field.name}
                   type={field.type}
                   required={field.validation?.required || false}
                   name={field.name}
                   options={field.options}
                   rows={field.validation?.number_of_lines}
+                  description={field.description}
                 />
               ))}
             </div>

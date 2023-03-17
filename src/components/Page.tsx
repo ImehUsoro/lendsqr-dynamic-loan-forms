@@ -1,7 +1,7 @@
 import React from "react";
 import Section from "./Section";
 import Actions from "./Actions";
-import { PageProps } from "../types/PageTyes";
+import { PageProps } from "../types/PageTypes";
 
 const Pages = ({ page }: PageProps) => {
   return (

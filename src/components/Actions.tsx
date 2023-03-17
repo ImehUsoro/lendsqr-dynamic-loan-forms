@@ -1,14 +1,30 @@
-import { ActionTypes } from "../types/PageTyes";
+import { useRecoilState } from "recoil";
+import { currentPageState, formState, modal } from "../atoms/pageAtoms";
+import { ActionTypes } from "../types/PageTypes";
 
 interface ActionProps {
   actions: ActionTypes[];
 }
 const Actions = ({ actions }: ActionProps) => {
+  const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
+  const [mode, setMode] = useRecoilState(formState);
+  const [modalState, setModalState] = useRecoilState(modal);
+
   return (
     <div className="max-w-sm mx-auto flex flex-row-reverse justify-between">
       {actions.map((action) => (
         <button
           key={action.type}
+          type={action.type === "cancel" ? "button" : "submit"}
+          onClick={() => {
+            if (action.type === "continue") {
+              setCurrentPage(currentPage + 1);
+            } else if (action.type === "previous") {
+              setCurrentPage(currentPage - 1);
+            } else if (action.type === "cancel") {
+              setModalState(true);
+            }
+          }}
           className={`${
             action.type !== "cancel"
               ? "bg-hoverGreen hover:bg-teal-500 active:bg-teal-600"
