@@ -43,3 +43,11 @@ h2 {
 input:-webkit-autofill {
   transition: background-color 1s 5000s;
 }
+
+.hover-trigger .hover-target {
+    display: none;
+}
+
+.hover-trigger:hover .hover-target {
+    display: block;
+}

@@ -8,6 +8,7 @@ module.exports = {
         hoverGreen: "#20c997",
         heading: "#213f7d",
         textColor: "#545f7d",
+        darkBlue: "#213F7D",
       },
       screens: {
         xxl: "1440px",
