@@ -43,8 +43,49 @@ const FormInput = ({
     setFormData(formik.values);
   }, []);
 
-  // console.log(formik.values.reason_for_loan);
-  // console.log(formData);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    formik.handleChange(e);
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    formik.handleChange(e);
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    formik.handleChange(e);
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSpecialInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) {
+      return;
+    } else {
+      formik.setFieldValue(id, e.target.files[0]);
+      setFormData({
+        ...formData,
+        [e.target.name]: e.target.files[0],
+      });
+    }
+  };
+
+  let newPlaceholder = formik.values[id as keyof typeof formik.values]
+    ? ""
+    : placeholder;
+
+  let defaultInputValue = formik.values[id as keyof typeof formik.values]
+    ? formik.values[id as keyof typeof formik.values]
+    : "";
 
   return (
     <div className="w-full">
@@ -69,21 +110,11 @@ const FormInput = ({
             <input
               type="text"
               name={id}
-              onChange={(e) => {
-                formik.handleChange(e);
-                setFormData({
-                  ...formData,
-                  [e.target.name]: e.target.value,
-                });
-              }}
-              placeholder={formik.values.name_of_student ? "" : placeholder}
-              defaultValue={
-                id === "name_of_student" && formik.values.name_of_student
-                  ? formik.values.name_of_student
-                  : ""
-              }
+              onChange={handleInputChange}
+              placeholder={newPlaceholder}
+              defaultValue={defaultInputValue}
               onBlur={formik.handleBlur}
-              className="border-2 w-full border-gray-200 rounded-md p-2 placeholder:text-textColor focus:outline-none focus:border-green text-textColor"
+              className="input"
             />
             <p className="text-red-500 text-xs mt-1">
               {formik.touched.name_of_student &&
@@ -95,22 +126,12 @@ const FormInput = ({
           <>
             <textarea
               name={id}
-              onChange={(e) => {
-                formik.handleChange(e);
-                setFormData({
-                  ...formData,
-                  [e.target.name]: e.target.value,
-                });
-              }}
-              placeholder={formik.values.reason_for_loan ? "" : placeholder}
-              defaultValue={
-                id === "reason_for_loan" && formik.values.reason_for_loan
-                  ? formik.values.reason_for_loan
-                  : ""
-              }
+              onChange={handleTextAreaChange}
+              placeholder={newPlaceholder}
+              defaultValue={defaultInputValue}
               onBlur={formik.handleBlur}
               rows={rows}
-              className="border-2 w-full border-gray-200 rounded-md p-2 placeholder:text-textColor focus:outline-none focus:border-green text-textColor resize-none"
+              className="input resize-none"
             />
             <p className="text-red-500 text-xs mt-1">
               {formik.touched.reason_for_loan &&
@@ -123,17 +144,10 @@ const FormInput = ({
             <input
               type="date"
               name={id}
-              onChange={(e) => {
-                formik.handleChange(e);
-                setFormData({
-                  ...formData,
-                  [e.target.name]: e.target.value,
-                });
-              }}
+              onChange={handleInputChange}
               onBlur={formik.handleBlur}
               placeholder={placeholder}
-              defaultValue=""
-              className="border-2 w-full border-gray-200 rounded-md p-2 placeholder:text-textColor focus:outline-none focus:border-green text-textColor"
+              className="input"
             />
             <p className="text-red-500 text-xs mt-1">
               {formik.touched.date_of_birth &&
@@ -145,56 +159,30 @@ const FormInput = ({
           <input
             type="time"
             name={id}
-            onChange={(e) => {
-              formik.handleChange(e);
-              setFormData({
-                ...formData,
-                [e.target.name]: e.target.value,
-              });
-            }}
+            onChange={handleInputChange}
             onBlur={formik.handleBlur}
             placeholder={placeholder}
-            defaultValue=""
-            className="border-2 w-full border-gray-200 rounded-md p-2 placeholder:text-textColor focus:outline-none focus:border-green text-textColor"
+            className="input"
           />
         ) : type === "date_time" ? (
           <input
             type="datetime-local"
             name={id}
             placeholder={placeholder}
-            onChange={(e) => {
-              formik.handleChange(e);
-              setFormData({
-                ...formData,
-                [e.target.name]: e.target.value,
-              });
-            }}
+            onChange={handleInputChange}
             onBlur={formik.handleBlur}
-            defaultValue=""
-            className="border-2 w-full border-gray-200 rounded-md p-2 placeholder:text-textColor focus:outline-none focus:border-green text-textColor"
+            className="input"
           />
         ) : type === "number" ? (
           <>
             <input
               type="number"
               name={id}
-              onChange={(e) => {
-                formik.handleChange(e);
-                setFormData({
-                  ...formData,
-                  [e.target.name]: e.target.value,
-                });
-              }}
+              onChange={handleInputChange}
               onBlur={formik.handleBlur}
-              placeholder={
-                formik.values.salary_of_dad
-                  ? formik.values.salary_of_dad.toFixed()
-                  : placeholder
-              }
-              defaultValue={
-                formik.values.salary_of_dad ? formik.values.salary_of_dad : ""
-              }
-              className="border-2 w-full border-gray-200 rounded-md p-2 placeholder:text-textColor focus:outline-none focus:border-green text-textColor"
+              placeholder={newPlaceholder}
+              defaultValue={defaultInputValue}
+              className="input"
             />
             <p className="text-red-500 text-xs mt-1">
               {formik.touched.salary_of_dad &&
@@ -207,25 +195,11 @@ const FormInput = ({
             <input
               type="number"
               name={id}
-              onChange={(e) => {
-                formik.handleChange(e);
-                setFormData({
-                  ...formData,
-                  [e.target.name]: e.target.value,
-                });
-              }}
+              onChange={handleInputChange}
               onBlur={formik.handleBlur}
-              placeholder={
-                formik.values.number_of_siblins
-                  ? formik.values.number_of_siblins.toFixed()
-                  : placeholder
-              }
-              defaultValue={
-                formik.values.number_of_siblins
-                  ? formik.values.number_of_siblins
-                  : ""
-              }
-              className="border-2 w-full border-gray-200 rounded-md p-2 placeholder:text-textColor focus:outline-none focus:border-green text-textColor"
+              placeholder={newPlaceholder}
+              defaultValue={defaultInputValue}
+              className="input"
             />
             <p className="text-red-500 text-xs mt-1">
               {formik.touched.number_of_siblins &&
@@ -238,19 +212,11 @@ const FormInput = ({
             <input
               type="email"
               name={id}
-              onChange={(e) => {
-                formik.handleChange(e);
-                setFormData({
-                  ...formData,
-                  [e.target.name]: e.target.value,
-                });
-              }}
+              onChange={handleInputChange}
               onBlur={formik.handleBlur}
-              placeholder={formik.values.email ? "" : placeholder}
-              defaultValue={
-                id === "email" && formik.values.email ? formik.values.email : ""
-              }
-              className="border-2 w-full border-gray-200 rounded-md p-2 placeholder:text-textColor focus:outline-none focus:border-green text-textColor"
+              placeholder={newPlaceholder}
+              defaultValue={defaultInputValue}
+              className="input"
             />
             <p className="text-red-500 text-xs mt-1">
               {formik.touched.email &&
@@ -263,21 +229,11 @@ const FormInput = ({
             <input
               type="tel"
               name={id}
-              onChange={(e) => {
-                formik.handleChange(e);
-                setFormData({
-                  ...formData,
-                  [e.target.name]: e.target.value,
-                });
-              }}
+              onChange={handleInputChange}
               onBlur={formik.handleBlur}
-              placeholder={formik.values.phone_number ? "" : placeholder}
-              defaultValue={
-                id === "phone_number" && formik.values.phone_number
-                  ? formik.values.phone_number
-                  : ""
-              }
-              className="border-2 w-full border-gray-200 rounded-md p-2 placeholder:text-textColor focus:outline-none focus:border-green text-textColor"
+              placeholder={newPlaceholder}
+              defaultValue={defaultInputValue}
+              className="input"
             />
             <p className="text-red-500 text-xs mt-1">
               {formik.touched.phone_number &&
@@ -295,13 +251,7 @@ const FormInput = ({
                     name={id}
                     id={option.id}
                     value={option.id}
-                    onChange={(e) => {
-                      formik.handleChange(e);
-                      setFormData({
-                        ...formData,
-                        [e.target.name]: e.target.value,
-                      });
-                    }}
+                    onChange={handleInputChange}
                     onBlur={formik.handleBlur}
                   />
                   <span className="text-textColor">{option.label}</span>
@@ -322,13 +272,7 @@ const FormInput = ({
                   type="radio"
                   name={id}
                   value={option.id}
-                  onChange={(e) => {
-                    formik.handleChange(e);
-                    setFormData({
-                      ...formData,
-                      [e.target.name]: e.target.value,
-                    });
-                  }}
+                  onChange={handleInputChange}
                   onBlur={formik.handleBlur}
                 />
                 <span className="text-textColor">{option.label}</span>
@@ -338,16 +282,10 @@ const FormInput = ({
         ) : type === "dropdown" ? (
           <select
             name="document_options"
-            onChange={(e) => {
-              formik.handleChange(e);
-              setFormData({
-                ...formData,
-                [e.target.name]: e.target.value,
-              });
-            }}
+            onChange={handleSelectChange}
             onBlur={formik.handleBlur}
             value={formik.values.document_options}
-            className="border-2 w-full border-gray-200 rounded-md p-2 placeholder:text-textColor focus:outline-none focus:border-green text-textColor"
+            className="input"
           >
             {options?.map((option) => (
               <option key={option.id} value={option.label}>
@@ -361,23 +299,9 @@ const FormInput = ({
             name={id}
             alt=""
             placeholder={placeholder}
-            defaultValue=""
-            onChange={(event) => {
-              if (!event.target.files) {
-                return;
-              } else {
-                formik.setFieldValue(
-                  "identity_document",
-                  event.target.files[0]
-                );
-                setFormData({
-                  ...formData,
-                  [event.target.name]: event.target.files[0],
-                });
-              }
-            }}
+            onChange={handleSpecialInput}
             onBlur={formik.handleBlur}
-            className="border-2 w-full border-gray-200 rounded-md p-2 placeholder:text-textColor focus:outline-none focus:border-green text-textColor"
+            className="input"
           />
         ) : type === "audio" ? (
           <input
@@ -385,22 +309,8 @@ const FormInput = ({
             name={id}
             alt=""
             placeholder={placeholder}
-            defaultValue=""
-            onChange={(event) => {
-              if (!event.target.files) {
-                return;
-              } else {
-                formik.setFieldValue(
-                  "audio_attestation",
-                  event.target.files[0]
-                );
-                setFormData({
-                  ...formData,
-                  [event.target.name]: event.target.files[0],
-                });
-              }
-            }}
-            className="border-2 w-full border-gray-200 rounded-md p-2 placeholder:text-textColor focus:outline-none focus:border-green text-textColor"
+            onChange={handleSpecialInput}
+            className="input"
           />
         ) : type === "image" ? (
           <input
@@ -408,42 +318,18 @@ const FormInput = ({
             name={id}
             alt=""
             placeholder={placeholder}
-            defaultValue=""
-            onChange={(event) => {
-              if (!event.target.files) {
-                return;
-              } else {
-                formik.setFieldValue("student_selfie", event.target.files[0]);
-                setFormData({
-                  ...formData,
-                  [event.target.name]: event.target.files[0],
-                });
-              }
-            }}
-            className="border-2 w-full border-gray-200 rounded-md p-2 placeholder:text-textColor focus:outline-none focus:border-green text-textColor"
+            onChange={handleSpecialInput}
+            className="input"
           />
         ) : type === "video" ? (
           <input
             type="file"
             name={id}
             alt=""
+            id={id}
             placeholder={placeholder}
-            defaultValue=""
-            onChange={(event) => {
-              if (!event.target.files) {
-                // return;
-              } else {
-                formik.setFieldValue(
-                  "video_attestation",
-                  event.target.files[0]
-                );
-                setFormData({
-                  ...formData,
-                  [event.target.name]: event.target.files[0],
-                });
-              }
-            }}
-            className="border-2 w-full border-gray-200 rounded-md p-2 placeholder:text-textColor focus:outline-none focus:border-green text-textColor"
+            onChange={handleSpecialInput}
+            className="input"
           />
         ) : null}
       </form>
