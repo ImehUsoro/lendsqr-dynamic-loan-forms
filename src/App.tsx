@@ -150,6 +150,7 @@ function App() {
                     alert(JSON.stringify(formData));
                     setCurrentPage(0);
                     setMode("default");
+                    setURL(URL);
                   }}
                   className="bg-teal-400 rounded-md py-2 w-20 hover:bg-teal-500 active:bg-teal-600 transition-all duration-100"
                 >

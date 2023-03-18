@@ -40,7 +40,10 @@ const FormInput = ({
   });
 
   useEffect(() => {
-    setFormData(formik.values);
+    setFormData({
+      ...formData,
+      [id]: formik.values[id as keyof typeof formik.values],
+    });
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

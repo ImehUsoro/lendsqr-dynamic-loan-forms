@@ -1,4 +1,5 @@
 import { atom } from "recoil";
+import { initialValues } from "../utils/data";
 
 export const currentPageState = atom({
   key: "currentPageState",
@@ -22,5 +23,5 @@ export const submitModal = atom({
 
 export const submittedData = atom({
   key: "submittedData",
-  default: {},
+  default: initialValues,
 });
