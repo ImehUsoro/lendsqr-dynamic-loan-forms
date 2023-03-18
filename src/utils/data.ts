@@ -1,3 +1,5 @@
+import * as Yup from "yup";
+
 export const data = {
   meta: {
     name: "Lendsqr sample education loan form",
@@ -343,4 +345,54 @@ export const values = {
   reason_for_loan:
     "I want to complete my education and finish with a first class degree",
   food_options: ["Afolabi"],
+};
+
+export const initialValues = {
+  name_of_student: values.name_of_student,
+  number_of_siblins: values.number_of_siblins,
+  salary_of_dad: values.salary_of_dad,
+  phone_number: values.phone_number,
+  email: values.email,
+  reason_for_loan: values.reason_for_loan,
+  food_options: "",
+  document_options: "International Passport",
+  date_of_birth: "",
+  time_of_day: "",
+  drink_options: "",
+  resumption_date: "",
+  identity_document: "",
+  audio_attestation: "",
+  student_selfie: "",
+  video_attestation: "",
+};
+
+export const setValidations = (
+  max: number | undefined,
+  min: number | undefined
+) => {
+  let validations = Yup.object({
+    name_of_student: Yup.string().required("Name is required"),
+    number_of_siblins: Yup.number()
+      .required("Number of siblings are required")
+      .max(max || 10, "Maximum of 10 siblings")
+      .min(min || 0),
+    salary_of_dad: Yup.number()
+      .required("Salary is required")
+      .max(max || 999999999, "Maximum of ₦1,000,000")
+      .min(min || 0),
+    reason_for_loan: Yup.string().required("Reason is required"),
+    date_of_birth: Yup.string().required("Date of birth is required"),
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
+    phone_number: Yup.string()
+      .matches(
+        /^([0]{1}|\+?[234]{3})([7-9]{1})([0|1]{1})([\d]{1})([\d]{7})$/g,
+        "Invalid phone number"
+      )
+      .required("Phone Number is required"),
+    food_options: Yup.array().min(1, "Select one food option"),
+  });
+
+  return validations;
 };
