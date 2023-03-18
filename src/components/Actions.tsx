@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { useRecoilState } from "recoil";
 import {
   currentPageState,
@@ -19,15 +20,16 @@ const Actions = ({ actions }: ActionProps) => {
   return (
     <div className="max-w-sm mx-auto flex flex-row-reverse justify-between">
       {actions.map((action) => (
-        <button
+        <motion.button
+          whileTap={{ scale: 0.9 }}
+          whileHover={{ scale: 1.05 }}
           key={action.type}
           type={action.type === "cancel" ? "button" : "submit"}
           onClick={() => {
             if (action.type === "continue") {
               setCurrentPage(currentPage + 1);
+              window.scrollTo(0, 0);
             } else if (action.type === "submit") {
-              // setCurrentPage(currentPage);
-              // setMode("submit");
               setSubmitModalState(true);
             } else if (action.type === "cancel") {
               setModalState(true);
@@ -40,7 +42,7 @@ const Actions = ({ actions }: ActionProps) => {
           } text-white w-36 rounded-md py-2 transition-all duration-200`}
         >
           {action.label}
-        </button>
+        </motion.button>
       ))}
     </div>
   );

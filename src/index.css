@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* html {
+  scroll-behavior: smooth;
+} */
+
 body {
   margin: 0;
   padding: 0;
@@ -45,9 +49,9 @@ input:-webkit-autofill {
 }
 
 .hover-trigger .hover-target {
-    display: none;
+  display: none;
 }
 
 .hover-trigger:hover .hover-target {
-    display: block;
+  display: block;
 }

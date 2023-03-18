@@ -50,6 +50,7 @@ const FormInput = ({
       identity_document: "",
       audio_attestation: "",
       student_selfie: "",
+      video_attestation: "",
     },
     validationSchema: Yup.object({
       name_of_student: Yup.string().required("Name is required"),
@@ -101,6 +102,7 @@ const FormInput = ({
     formik.values.identity_document,
     formik.values.audio_attestation,
     formik.values.student_selfie,
+    formik.values.video_attestation,
   ]);
 
   return (
