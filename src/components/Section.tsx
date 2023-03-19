@@ -36,6 +36,8 @@ const Section = ({ sectionInfo }: SectionProps) => {
                   options={field.options}
                   rows={field.validation?.number_of_lines}
                   description={field.description}
+                  max={Number(field.validation?.maximum)}
+                  min={Number(field.validation?.minimum)}
                 />
               ))}
             </div>

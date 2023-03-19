@@ -1,10 +1,10 @@
 import { useFormik } from "formik";
 import { OptionTypes } from "../types/PageTypes";
-import { initialValues, setValidations } from "../utils/data";
-import * as Yup from "yup";
+import { initialValues } from "../utils/data";
 import { useRecoilState } from "recoil";
 import { submittedData } from "../atoms/pageAtoms";
 import { useEffect } from "react";
+import { setValidations } from "../utils/helperFunctions";
 
 interface FormInputProps {
   id: string;
@@ -44,6 +44,7 @@ const FormInput = ({
       ...formData,
       [id]: formik.values[id as keyof typeof formik.values],
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,6 +80,7 @@ const FormInput = ({
         ...formData,
         [e.target.name]: e.target.files[0],
       });
+      console.log(e.target.files[0]);
     }
   };
 
@@ -90,6 +92,10 @@ const FormInput = ({
     ? formik.values[id as keyof typeof formik.values]
     : "";
 
+  const errorMessage =
+    formik.touched[id as keyof typeof formik.values] &&
+    formik.errors[id as keyof typeof formik.values] &&
+    formik.errors[id as keyof typeof formik.values];
   return (
     <div className="w-full">
       <div className="relative hover-trigger max-w-fit">
@@ -120,9 +126,7 @@ const FormInput = ({
               className="input"
             />
             <p className="text-red-500 text-xs mt-1">
-              {formik.touched.name_of_student &&
-                formik.errors.name_of_student &&
-                formik.errors.name_of_student}
+              {errorMessage && errorMessage}
             </p>
           </>
         ) : type === "long_text" ? (
@@ -137,9 +141,7 @@ const FormInput = ({
               className="input resize-none"
             />
             <p className="text-red-500 text-xs mt-1">
-              {formik.touched.reason_for_loan &&
-                formik.errors.reason_for_loan &&
-                formik.errors.reason_for_loan}
+              {errorMessage && errorMessage}
             </p>
           </>
         ) : type === "date" ? (
@@ -153,9 +155,7 @@ const FormInput = ({
               className="input"
             />
             <p className="text-red-500 text-xs mt-1">
-              {formik.touched.date_of_birth &&
-                formik.errors.date_of_birth &&
-                formik.errors.date_of_birth}
+              {errorMessage && errorMessage}
             </p>
           </>
         ) : type === "time" ? (
@@ -188,9 +188,7 @@ const FormInput = ({
               className="input"
             />
             <p className="text-red-500 text-xs mt-1">
-              {formik.touched.salary_of_dad &&
-                formik.errors.salary_of_dad &&
-                formik.errors.salary_of_dad}
+              {errorMessage && errorMessage}
             </p>
           </>
         ) : type === "integer" ? (
@@ -205,9 +203,7 @@ const FormInput = ({
               className="input"
             />
             <p className="text-red-500 text-xs mt-1">
-              {formik.touched.number_of_siblins &&
-                formik.errors.number_of_siblins &&
-                formik.errors.number_of_siblins}
+              {errorMessage && errorMessage}
             </p>
           </>
         ) : type === "email" ? (
@@ -222,9 +218,7 @@ const FormInput = ({
               className="input"
             />
             <p className="text-red-500 text-xs mt-1">
-              {formik.touched.email &&
-                formik.errors.email &&
-                formik.errors.email}
+              {errorMessage && errorMessage}
             </p>
           </>
         ) : type === "phone" ? (
@@ -239,9 +233,7 @@ const FormInput = ({
               className="input"
             />
             <p className="text-red-500 text-xs mt-1">
-              {formik.touched.phone_number &&
-                formik.errors.phone_number &&
-                formik.errors.phone_number}
+              {errorMessage && errorMessage}
             </p>
           </>
         ) : type === "checkbox" ? (
@@ -262,9 +254,7 @@ const FormInput = ({
               ))}
             </div>
             <p className="text-red-500 text-xs mt-1">
-              {formik.touched.food_options &&
-                formik.errors.food_options &&
-                formik.errors.food_options}
+              {errorMessage && errorMessage}
             </p>
           </>
         ) : type === "radio" ? (
@@ -302,8 +292,8 @@ const FormInput = ({
             name={id}
             alt=""
             placeholder={placeholder}
-            onChange={handleSpecialInput}
             onBlur={formik.handleBlur}
+            onChange={handleSpecialInput}
             className="input"
           />
         ) : type === "audio" ? (
@@ -312,6 +302,7 @@ const FormInput = ({
             name={id}
             alt=""
             placeholder={placeholder}
+            onBlur={formik.handleBlur}
             onChange={handleSpecialInput}
             className="input"
           />
@@ -321,6 +312,7 @@ const FormInput = ({
             name={id}
             alt=""
             placeholder={placeholder}
+            onBlur={formik.handleBlur}
             onChange={handleSpecialInput}
             className="input"
           />
@@ -331,6 +323,7 @@ const FormInput = ({
             alt=""
             id={id}
             placeholder={placeholder}
+            onBlur={formik.handleBlur}
             onChange={handleSpecialInput}
             className="input"
           />
